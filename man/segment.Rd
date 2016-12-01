@@ -45,6 +45,7 @@ A list with "class": 3d array of class per voxel; "mu" estimated means; "sigma":
 egmentation of 3D images using EM algorithms
 }
 \examples{
+\dontrun{
 original<-array(1,c(300,300,50))
 for (i in 1:5)original[(i*60)-(0:20),,]<-original[(i*60)-(0:20),,]+1
 for (i in 1:10)original[,(i*30)-(0:15),]<-original[,(i*30)-(0:15),]+1
@@ -54,15 +55,19 @@ img<-array(rnorm(300*300*50,original,.2),c(300,300,50))
 img<-img-min(img)
 img<-img/max(img)
 
+try1<-segment(img,3,beta=0.5,z.scale=.3)
+print(sum(try1$class!=original)/prod(dim(original)))
+
 beta<-matrix(rep(-.5,9),nrow=3)
 beta<-beta+1.5*diag(3)
+try2<-segment(img,3,beta,z.scale=.3)
+print(sum(try2$class!=original)/prod(dim(original)))
 
-seg.img<-segment(img,3,beta,z.scale=.3)
-
-print(sum(seg.img$class!=original)/prod(dim(original)))
-\dontrun{
-  EBImage::display(seg.img$class/3)
+par(mfrow=c(2,2))
+img(original)
+img(img)
+img(try1$class)
+img(try2$class)
 }
-
 }
 

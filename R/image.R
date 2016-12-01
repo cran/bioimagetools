@@ -1,33 +1,98 @@
 #' image for microscopy
 #'
 #' @param x Image, 2D or 3D Matrix
-#' @param col Color: "grey", "red" ("r"), "green" ("g") or "blue" ("b"), "rgb" for 3D matrices
-#' @param low minimal value of shown intensity
-#' @param up maximal value of shown intensity
+#' @param z slice to show, default: NULL, expects x to be 2d or 2d+channels
+#' @param ch channel. Default: NULL, either only one channel, rgb or channel will be assumed from col
+#' @param mask mask for image, voxel outside the mask will be transparent (default: NULL, no mask)
+#' @param col Color, either a character ("grey", "greyinvert", "red" ("r"), "green" ("g") or "blue" ("b"), rgb" for 3D matrices),
+#'            a vector of character with hex rgb values or a function.
+#' @param low minimal value of shown intensity. Default: NULL: use min(x, na.rm=TRUE).
+#' @param up maximal value of shown intensity. Default: NULL: use max(x, na.rm=TRUE).
 #' @param ... other parameters for graphics::image
 #'
 #' @return no return
 #' @export
-img<-function(x,col="grey",low=0,up=NULL,...)
+#' @import grDevices
+img<-function(x,z=NULL,ch=NULL,mask=NULL,col="grey",low=NULL,up=NULL,...)
 {
-  if (is.null(up))up=ifelse(length(dim(x))==2,max(x),apply(x,3,max))
-  if(col=="rgb"){img.rgb(x,low=low, up=up, ...);return()}
-  a<-seq(0,1,length=1000)
-  b=rep(0,1000)
-  if(col=="grey")colo=grDevices::grey(a)
-  if(col=="red"|col=="r")colo=grDevices::rgb(a,b,b)
-  if(col=="green"|col=="g")colo=grDevices::rgb(b,a,b)
-  if(col=="blue"|col=="b")colo=grDevices::rgb(b,b,a)
+  if(class(col)!="function")
+  {
+    if (class(col)!="character")stop("col must be character or function")
+    if(length(col)==1)if(col=="rgb"){return(img.rgb(x, z=z, mask=mask, low=low, up=up, ...))}
+  }
+
+  x[mask==0]<-NA
+  if (is.null(low))low=min(x,na.rm=TRUE)
+  if (is.null(up))up=max(x,na.rm=TRUE)
+  D <- length(dim(x))
+
+  if(is.null(ch)&length(col)==1)  {
+    if(col=="r"|col=="red")cha=1
+    if(col=="g"|col=="green")cha=2
+    if(col=="b"|col=="blue"|col=="grey"|col=="greyinvert")cha=3
+  }
+  else
+  {
+    cha=ch
+  }
+  
+  # sanity checks and dimension reduction
+  dd <- 2 +!is.null(z)
+  if (dd==D&!is.null(ch))warning("ch ignored.")
+  if (dd==D)cha=NULL
+    
+  if (is.null(cha)&is.null(z)&D!=2){stop("Dimension of x is wrong.")}
+  if (is.null(cha)&!is.null(z)&(!(D==2|D==3))){stop("Dimension of x is wrong.")}
+  if (!is.null(z))
+  {
+    if (is.null(cha)&D==2)warning("x is 2d, z ignored.")
+    if (is.null(cha)&D==3)x<-x[,,z]
+    if (!is.null(cha)&D==4)x<-x[,,cha,z]
+  }
+  if (is.null(z)&!is.null(cha))
+  {
+    if(D==3)x<-x[,,cha]
+  }
+  
+  
+  T=1000
+  a<-seq(0,1,length=T)
+  b=rep(0,T)
+  if(class(col)=="character")
+      {
+        if (length(col)>1)
+        {
+          colo=col
+        }
+    else
+    {
+        colo=switch(col,
+               "grey" = grey(a),
+               "greyinvert" = rev(grey(a)),
+               "red" = rgb(a,b,b),
+               "r" = rgb(a,b,b),
+               "green" = rgb(b,a,b),
+               "g" = rgb(b,a,b),
+               "blue" = rgb(b,b,a),
+               "b" = rgb(b,b,a)
+               )
+    }
+  }
+  if (class(col)=="function")
+  {
+    colo=col(a)
+  }
   x<-aperm(x,c(2,1))
   x[,dim(x)[2]:1]<-x
   x<-x-low
   x=x/(up-low)
   x[x<0]<-0
   x[x>1]<-1
-  graphics::image(1:dim(x)[1],1:dim(x)[2],x,axes=FALSE,col=colo,xlab="",ylab="", zlim=c(0,1),...)
+  image(1:dim(x)[1],1:dim(x)[2],array(0,dim(x)),axes=FALSE,xlab="",ylab="",col="black",...)
+  image(1:dim(x)[1],1:dim(x)[2],x,col=colo,zlim=c(0,1),add=TRUE)
 }
 
-img.rgb<-function(x,n=100,low,up,...)
+img.rgb<-function(x,z=NULL,mask=NULL, n=100,low,up,...)
 {
   n<-100
   a<-b<-c<-seq(0,1,length=100)
@@ -43,6 +108,9 @@ img.rgb<-function(x,n=100,low,up,...)
   if (length(up)==3&length(low)==1)for (i in 1:3)x[,,i]=x[,,i]/(up[i]-low)
   x[x<0]<-0
   x[x>1]<-1
+
+  if(!is.null(z))x<-x[,,,z];mask<-mask[,,z]
+  if(!is.null(mask))x[mask==0]<-NA
   
   xx<-floor(1+x[,,1]*(n-1))*n*n+floor(1+x[,,2]*(n-1))*n+floor(1+x[,,3]*(n-1))
   xx<-aperm(xx,c(2,1))

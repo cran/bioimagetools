@@ -1,17 +1,24 @@
 Package: bioimagetools
-Version: 0.3.1
-Date: 2016-10-14
+Version: 1.0.0
+Date: 2016-12-01
 Title: Some Tools for Imaging
-Author: Volker Schmid
+Author: Volker Schmid [aut, cre], Priyanka Kukreja [ctb], Fabian Scheipl [ctb]
 Maintainer: Volker Schmid <stats@volkerschmid.de>
-Depends: R (>= 3.0.0), utils
-biocViews:
-Imports: parallel, spatstat, EBImage, tiff, stats, grDevices
-Description: Some tools for (bio)imaging.
+Authors@R: c(
+    person("Volker", "Schmid", role = c("aut", "cre"), email = "stats@volkerschmid.de"),
+	  person("Priyanka", "Kukreja", role = "ctb"),
+	  person("Fabian", "Scheipl", role = "ctb")
+	  )
+Depends: R (>= 3.0.0)
+Imports: parallel, tiff, stats, grDevices, utils, EBImage
+Description: Tools for 3D imaging, mostly for biology/microscopy. 
+    Read and write TIFF stacks. Functions for segmentation, filtering and analysing 3D point patterns.
 License: GPL-3
-URL: http://volkerschmid.de
+URL: http://bioimaginggroup.github.io/bioimagetools
 RoxygenNote: 5.0.1
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr
 NeedsCompilation: yes
-Packaged: 2016-10-14 09:19:49 UTC; schmid
+Packaged: 2016-12-01 09:25:45 UTC; schmid
 Repository: CRAN
-Date/Publication: 2016-10-17 14:38:57
+Date/Publication: 2016-12-01 11:28:44
