@@ -1,27 +1,24 @@
 #' Read tif stacks
 #'
-#' @param file Name of the file to read from.
+#' @param file Name of the file to read from. Can also be an URL.
 #' @param native determines the image representation - if FALSE (the default) then the result is an array, if TRUE then the result is a native raster representation (suitable for plotting).
 #' @param as.is attempt to return original values without re-scaling where possible
 #' @param channels number of channels
 #' @return 3d or 4d array
 #' @export
-#' @import tiff utils
+#' @import tiff utils httr
 #' @examples
 #' kringel <- readTIF(system.file("extdata","kringel.tif",package="bioimagetools"))
 #' img(kringel)
 readTIF<-function(file=file.choose(),native=FALSE,as.is=FALSE,channels=NULL)
 {
-  greplTRUE=FALSE
   if (grepl("http*://",file))
   {
-    tempfile=paste0("temp-",paste(sample(letters,20,TRUE),collapse=""),".tif")
-    download.file(file,destfile = tempfile,mode="wb")
-    file=tempfile
-    greplTRUE=TRUE
+    file<-httr::GET(file)
+    file<-file$content
   }
-  li<-readTIFF(file,all=TRUE,info=TRUE,as.is=as.is,native=native)
-  if(greplTRUE)file.remove(tempfile)
+  li<-tiff::readTIFF(file,all=TRUE,info=TRUE,as.is=as.is,native=native)
+  remove(file)
   Z<-length(li)
   img<-array(0,c(dim(li[[1]]),Z))
   if(length(dim(li[[1]]))==2)for (i in 1:Z)img[,,i]<-li[[i]]

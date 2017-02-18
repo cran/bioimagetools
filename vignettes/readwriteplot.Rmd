@@ -1,15 +1,15 @@
 ---
-title: "Bioimage Tools"
+title: "Read, write and plot TIFFs"
 author: "Volker J. Schmid, Bioimaging group, Department of Statistics, LMU Munich"
 date: '`r Sys.Date()`'
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{Custom Print Methods}
+  %\VignetteIndexEntry{Read, write and plot}
 output:
   knitr:::html_vignette:
     toc: yes
 ---
-```{r loadlibrary, include=FALSE, cache=TRUE}
+```{r loadlibrary, cache=TRUE}
 library(bioimagetools)
 ```
 

@@ -1,4 +1,4 @@
-## ----loadlibrary, include=FALSE, cache=TRUE------------------------------
+## ----loadlibrary, cache=TRUE---------------------------------------------
 library(bioimagetools)
 
 ## ----readtif, warnings=FALSE, collapse=TRUE------------------------------

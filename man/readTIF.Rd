@@ -8,7 +8,7 @@ readTIF(file = file.choose(), native = FALSE, as.is = FALSE,
   channels = NULL)
 }
 \arguments{
-\item{file}{Name of the file to read from.}
+\item{file}{Name of the file to read from. Can also be an URL.}
 
 \item{native}{determines the image representation - if FALSE (the default) then the result is an array, if TRUE then the result is a native raster representation (suitable for plotting).}
 
@@ -26,4 +26,3 @@ Read tif stacks
 kringel <- readTIF(system.file("extdata","kringel.tif",package="bioimagetools"))
 img(kringel)
 }
-
