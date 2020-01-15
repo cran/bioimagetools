@@ -4,24 +4,34 @@
 \alias{spots}
 \title{Find spots based on threshold and minimum total intensity}
 \usage{
-spots(img, mask, thresh.offset = 0.1, min.sum.intensity = 0, zero = NA,
-  max.spots = NULL, return = "full")
+spots(
+  img,
+  mask,
+  thresh.offset = 0.1,
+  window = c(5, 5),
+  min.sum.intensity = 0,
+  zero = NA,
+  max.spots = NULL,
+  return = "intensity"
+)
 }
 \arguments{
-\item{img}{image array}
+\item{img}{image array.}
 
-\item{mask}{mask}
+\item{mask}{mask array.}
 
-\item{thresh.offset}{threshold for minimum voxel intensity}
+\item{thresh.offset}{threshold for minimum voxel intensity.}
+
+\item{window}{Half width and height of the moving rectangular window.}
 
 \item{min.sum.intensity}{threshold for minimum total spot intensity}
 
-\item{zero}{if NA, background is set to NA, if 0,background is set to 0}
+\item{zero}{if NA, background is set to NA, if 0, background is set to 0.}
 
-\item{max.spots}{find max.spots spots with highest total intensity}
+\item{max.spots}{find max.spots spots with highest total intensity.}
 
 \item{return}{"mask" returns binarized mask, "intensity" returns intensity for spots, zero or NA otherwise
-"label" return labeled (numbered) spots}
+"label" return labeled (numbered) spots.}
 }
 \value{
 array
