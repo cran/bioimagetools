@@ -1,5 +1,10 @@
 # bioimagetools
 
+<!-- badges: start -->
+  [![CRAN status](https://www.r-pkg.org/badges/version/bioimagetools)](https://CRAN.R-project.org/package=bioimagetools)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+<!-- badges: end -->
+  
 ## Synopsis
 
 bioimagetools is an R package for working with images in 3D and 4D, mostly for biology/microscopy. 

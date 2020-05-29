@@ -22,6 +22,8 @@ readTIF(file = file.choose(), native = FALSE, as.is = FALSE, channels = NULL)
 Read tif stacks
 }
 \examples{
+\donttest{
 kringel <- readTIF(system.file("extdata","kringel.tif",package="bioimagetools"))
 img(kringel)
+}
 }
