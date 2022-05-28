@@ -15,7 +15,9 @@ segment(
   mask = array(TRUE, dim(img)),
   priormu = rep(NA, nclust),
   priormusd = rep(NULL, nclust),
-  min.eps = 10^{     -7 },
+  min.eps = 10^{
+     -7
+ },
   inforce.nclust = FALSE,
   start = NULL,
   silent = FALSE
@@ -46,7 +48,7 @@ segment(
 
 \item{inforce.nclust}{if TRUE enforces number of clusters to be nclust. Otherwise classes might be removed during algorithm.}
 
-\item{start}{?}
+\item{start}{not used}
 
 \item{silent}{if TRUE, function remains silent during running time}
 }

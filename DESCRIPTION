@@ -1,6 +1,6 @@
 Package: bioimagetools
-Version: 1.1.5
-Date: 2020-05-28
+Version: 1.1.8
+Date: 2022-05-27
 Title: Tools for Microscopy Imaging
 Author: Volker Schmid [aut, cre],
   Priyanka Kukreja [ctb],
@@ -18,12 +18,13 @@ SystemRequirements: tiff fftw libcurl openssl
 Description: Tools for 3D imaging, mostly for biology/microscopy. 
     Read and write TIFF stacks. Functions for segmentation, filtering and analyzing 3D point patterns.
 License: GPL-3
-URL: https://bioimaginggroup.github.io/bioimagetools
+URL: https://bioimaginggroup.github.io/bioimagetools/
 BugReports: https://github.com/bioimaginggroup/bioimagetools/issues
-RoxygenNote: 7.1.0
-Suggests: knitr, rmarkdown
-VignetteBuilder: knitr
+RoxygenNote: 7.2.0
+Encoding: UTF-8
+Suggests: knitr, rmarkdown, abind, fs, R.rsp
+VignetteBuilder: knitr, R.rsp
 NeedsCompilation: yes
-Packaged: 2020-05-29 11:07:48 UTC; schmid
+Packaged: 2022-05-28 10:06:27 UTC; schmid
 Repository: CRAN
-Date/Publication: 2020-05-29 13:20:02 UTC
+Date/Publication: 2022-05-28 10:30:02 UTC
